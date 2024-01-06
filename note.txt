@@ -1,0 +1,2 @@
+password ubuntu server @93HungNgan
+password postgres mvhung
