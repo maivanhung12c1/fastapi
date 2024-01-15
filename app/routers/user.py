@@ -25,7 +25,8 @@ async def create_users(user: schemas.UserCreate, db: Session = Depends(get_db)):
         db.commit()
         db.refresh(new_user)
     except Exception as e:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST)
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                            detail=f"Error: {str(e)}")
     return new_user
 
 @router.get("/{id}", response_model=schemas.UserOut)
