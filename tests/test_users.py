@@ -9,26 +9,14 @@ from app.config import settings
 
 
 def test_create_user(client):
-    res = client.post(
-        url="/users/",
-        json={
-            "email": "usertest@gmail.com",
-            "password": "test1999"
-        }
-    )
+    res = client.post(url="/users/",json={"email": "usertest@gmail.com", "password": "test1999"})
     
     new_user = schemas.UserOut(**res.json())
     assert new_user.email == "usertest@gmail.com"
     assert res.status_code == 201
 
 def test_login_user(client, test_user):
-    res = client.post(
-        url="/login/",
-        data={
-            "username": test_user["email"],
-            "password": test_user["password"]
-        }
-    )
+    res = client.post(url="/login/", data={"username": test_user["email"], "password": test_user["password"]})
     
     login_res = schemas.Token(**res.json())
     payload = jwt.decode(token=login_res.access_token, key=settings.secret_key, algorithms=[settings.algorithm])
@@ -45,13 +33,7 @@ def test_login_user(client, test_user):
     ("usertest@gmail.com", None, 422),
 ])
 def test_incorrect_login(test_user, client, email, password, status_code):
-    res = client.post(
-        url="/login/",
-        data={
-            "username": email,
-            "password": password
-        }
-    )
+    res = client.post(url="/login/",data={"username": email, "password": password})
 
     assert res.status_code == status_code
     # assert res.json().get("detail") == "Invalid Credentials"
