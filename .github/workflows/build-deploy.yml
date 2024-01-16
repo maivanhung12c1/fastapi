@@ -88,6 +88,6 @@ jobs:
             password: ${{ secrets.PASSWORD }}
             port: ${{ secrets.PORT }}
             script: |
-              cd /app/src
+              cd app/src
               git pull
               echo ${{ secrets.PASSWORD }} | sudo -S systemctl restart fastapi
